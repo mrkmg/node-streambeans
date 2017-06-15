@@ -1,6 +1,8 @@
 StreamBeans
 ===========
 
+![Build Status](https://travis-ci.org/mrkmg/node-streambeans.png?branch=master)
+
 A beancounter for your streams. Keep track of various metrics about a stream.
 
 ## Installation
