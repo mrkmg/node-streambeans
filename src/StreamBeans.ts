@@ -19,8 +19,8 @@ export class StreamBeans extends Transform {
         if (chunk instanceof Buffer || typeof chunk === "string") {
             len = chunk.length;
         }
-        this._update(len);
         this.push(chunk, encoding);
+        this._update(len);
         cb();
     }
 
@@ -39,9 +39,8 @@ export class StreamBeans extends Transform {
 
         const diffHr = process.hrtime(this._lastHr);
         const diffInSeconds = (diffHr[0] * 1e9 + diffHr[1]) / 1e9;
-        const previousSpeed    = this.lastSpeed;
         const currentSpeed     = calcSpeed(len, diffInSeconds);
-        this.averageSpeed      = calcAverageSpeed(currentSpeed, previousSpeed);
+        this.averageSpeed      = calcAverageSpeed(currentSpeed, this.averageSpeed);
         this.overallSpeed      = calcSpeed(this.totalBytes, now - this.firstDataTimestamp);
         this.lastSpeed         = currentSpeed;
         this.lastDataTimestamp = now;
@@ -50,7 +49,7 @@ export class StreamBeans extends Transform {
 }
 
 function calcAverageSpeed(currentSpeed: number, previousSpeed: number) {
-    return Math.round(currentSpeed * 0.001 + previousSpeed * 0.999);
+    return Math.round((currentSpeed * 0.0001) + (previousSpeed * 0.9999));
 }
 
 function calcSpeed(len: number, time: number) {
