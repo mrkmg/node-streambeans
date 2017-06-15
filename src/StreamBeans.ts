@@ -50,7 +50,7 @@ export class StreamBeans extends Transform {
 }
 
 function calcAverageSpeed(currentSpeed: number, previousSpeed: number) {
-    return Math.round(currentSpeed * 0.01 + previousSpeed * 0.99);
+    return Math.round(currentSpeed * 0.001 + previousSpeed * 0.999);
 }
 
 function calcSpeed(len: number, time: number) {

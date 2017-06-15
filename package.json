@@ -1,6 +1,6 @@
 {
   "name": "streambeans",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -12,7 +12,11 @@
     "tsc": "tsc",
     "build": "npm run clean; npm run tsc"
   },
-  "keywords": ["stream", "speed", "metric"],
+  "keywords": [
+    "stream",
+    "speed",
+    "metric"
+  ],
   "author": "Kevin Gravier <https://github.com/mrkmg>",
   "license": "MIT",
   "repository": "https://github.com/mrkmg/node-streambeans",
@@ -29,7 +33,7 @@
     "tempy": "^0.1.0",
     "ts-node": "^3.0.6",
     "tslint": "^5.4.3",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.0"
   },
   "dependencies": {
     "pretty-bytes": "^4.0.2"
