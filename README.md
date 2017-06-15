@@ -14,14 +14,14 @@ npm install --save streambeans
 ## Usage
 
 ```ecmascript 6
-import {StreamBean, toHuman} from "streambeans";
+import {StreamBeans, toHuman} from "streambeans";
 
 // Get some streams
 const inputStream = /* some stream */;
 const outputStream = /* some stream */;
 
 // Create a StreamBeans stream
-const streamBeans = new StreamBean();
+const streamBeans = new StreamBeans();
 
 // Pipe the inputStream to the outputStream through StreamBeams 
 inputStream.pipe(streamBeans).pipe(outputStream);
