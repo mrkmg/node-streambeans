@@ -66,7 +66,7 @@ for human consumption.
 
 ## Licence
 
-Copyright <2017> <Kevin Gravier>
+Copyright 2017 Kevin Gravier
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction, including
