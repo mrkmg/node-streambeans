@@ -8,6 +8,7 @@ export class StreamBeans extends Transform {
     public lastDataTimestamp: number  = null;
     public lastBytes: number          = 0;
     public totalBytes: number         = 0;
+    private _lastHr: [number, number] = null;
 
     constructor() {
         super({allowHalfOpen: false});
@@ -29,18 +30,22 @@ export class StreamBeans extends Transform {
 
         const now = Date.now() / 1000;
 
-        if (this.lastDataTimestamp === null) {
+        if (this._lastHr === null) {
+            this._lastHr = process.hrtime();
             this.firstDataTimestamp = now;
             this.lastDataTimestamp  = now;
             return;
         }
 
+        const diffHr = process.hrtime(this._lastHr);
+        const diffInSeconds = (diffHr[0] * 1e9 + diffHr[1]) / 1e9;
         const previousSpeed    = this.lastSpeed;
-        const currentSpeed     = calcSpeed(len, now - this.lastDataTimestamp);
+        const currentSpeed     = calcSpeed(len, diffInSeconds);
         this.averageSpeed      = calcAverageSpeed(currentSpeed, previousSpeed);
         this.overallSpeed      = calcSpeed(this.totalBytes, now - this.firstDataTimestamp);
         this.lastSpeed         = currentSpeed;
         this.lastDataTimestamp = now;
+        this._lastHr = process.hrtime();
     }
 }
 
