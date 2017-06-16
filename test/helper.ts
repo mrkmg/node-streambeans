@@ -26,20 +26,16 @@ export function makeFile(path: string, size: number) {
 }
 
 export function NullStream() {
-    return new Writable({
-        write(c: any, enc: string, cb: Function){
-            cb();
-        },
-    });
+    const write = (c: any, enc: string, cb: Function) => cb();
+    return new Writable({ write });
 }
 
 export function StringStream(): any {
-    const writable = new Writable({
-        write(c: any, enc: string, cb: Function) {
-            (writable as any).string += c.toString();
-            cb();
-        },
-    });
+    let writable: Writable;
+    const write = (c: any, enc: string, cb: Function) => {
+        (writable as any).string += c.toString();
+    };
+    writable = new Writable({ write });
     (writable as any).string = "";
     return writable;
 }

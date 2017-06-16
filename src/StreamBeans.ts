@@ -1,14 +1,54 @@
 import {Transform} from "stream";
 
 export class StreamBeans extends Transform {
-    public lastSpeed: number          = 0;
-    public averageSpeed: number       = 0;
-    public overallSpeed: number       = 0;
+    /**
+     * The last instantaneous speed measured
+     * @type {number}
+     */
+    public lastSpeed: number    = 0;
+
+    /**
+     * The average speed over the last {averageTimeFrame} seconds
+     * @type {number}
+     */
+    public averageSpeed: number = 0;
+
+    /**
+     * The average speed of the entire streams history
+     * @type {number}
+     */
+    public overallSpeed: number = 0;
+
+    /**
+     * Unix timestamp of first detected data
+     * @type {number}
+     */
     public firstDataTimestamp: number = null;
+
+    /**
+     * Unix timestamp of the last detected data
+     * @type {number}
+     */
     public lastDataTimestamp: number  = null;
-    public lastBytes: number          = 0;
-    public totalBytes: number         = 0;
-    public averageTimeFrame: number   = 5;
+
+    /**
+     * Number of bytes in the last detected chunk of data
+     * @type {number}
+     */
+    public lastBytes: number  = 0;
+
+    /**
+     * Total number of bytes transferred in the stream
+     * @type {number}
+     */
+    public totalBytes: number = 0;
+
+    /**
+     * Number of seconds to calculate for {averageSpeed}
+     * @type {number}
+     */
+    public averageTimeFrame: number = 5;
+
     private _lastHr: [number, number] = null;
 
     constructor() {
@@ -16,9 +56,12 @@ export class StreamBeans extends Transform {
     }
 
     public _transform(chunk: any, encoding: string, cb: Function) {
-        let len = 1;
+        let len: number;
+
         if (chunk instanceof Buffer || typeof chunk === "string") {
             len = chunk.length;
+        } else {
+            len = 1; // If this is not a Buffer or string, assume we are counting
         }
         this.push(chunk, encoding);
         this._update(len);
@@ -50,7 +93,7 @@ export class StreamBeans extends Transform {
         this._lastHr           = process.hrtime();
     }
 
-    private _calculateAverageSpeed(currentSpeed: number, secondsPassed: any) {
+    private _calculateAverageSpeed(currentSpeed: number, secondsPassed: number) {
         if (this.averageSpeed === 0) {
             this.averageSpeed = currentSpeed;
         } else {
