@@ -4,9 +4,7 @@ StreamBeans
 [![Greenkeeper badge](https://badges.greenkeeper.io/mrkmg/node-streambeans.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/mrkmg/node-streambeans.svg?branch=master)](https://travis-ci.org/mrkmg/node-streambeans)
 
-<div style="text-align: center">
-<img src="http://i.imgur.com/tvscJrG.png" alt="StreamBeans!" />
-</div>
+![StreamBeans!](http://i.imgur.com/tvscJrG.png)
 
 A beancounter for your streams. Keep track of various metrics about a stream.
 
