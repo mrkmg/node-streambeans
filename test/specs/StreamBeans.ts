@@ -22,6 +22,7 @@ describe("StreamBeans", function () {
         expect(beans.lastDataTimestamp).to.eq(null);
         expect(beans.lastBytes).to.eq(0);
         expect(beans.totalBytes).to.eq(0);
+        expect(beans.averageTimeFrame).to.eq(5);
     });
 
     it("should track bytes", (done) => {
@@ -38,8 +39,8 @@ describe("StreamBeans", function () {
 
     it("should track speeds", (done) => {
         beans.on("end", () => {
-            expect(beans.lastSpeed).to.be.closeTo(200, 10);
-            expect(beans.averageSpeed).to.be.closeTo(200, 10);
+            expect(beans.lastSpeed).to.be.closeTo(200, 50);
+            expect(beans.averageSpeed).to.be.closeTo(200, 50);
             done();
         });
 
@@ -49,7 +50,7 @@ describe("StreamBeans", function () {
 
     it("should set overall speed", (done) => {
         beans.on("end", () => {
-            expect(beans.overallSpeed).to.be.closeTo(150, 10);
+            expect(beans.overallSpeed).to.be.closeTo(150, 20);
             done();
         });
 
