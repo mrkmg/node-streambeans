@@ -43,13 +43,15 @@ See the [example.js](./example.js) file for a working example of how to use Stre
 
 ## Available Metrics
 
-- **lastSpeed** - The instantaneous speed of the last chunk of data.
-- **averageSpeed** - The average speed of the stream.
-- **overallSpeed** - The overall speed of the stream.
-- **firstDataTimestamp** - A seconds based timestamp of when the first chunk of data was detected.
-- **lastDataTimestamp** - A seconds based timestamp of when the last chunk of data was detected.
-- **lastBytes** - The size of the last chunk of data.
-- **totalBytes** - The total size of data transferred.
+| Metric                 | Description                                        |
+|:-----------------------|:---------------------------------------------------|
+| **lastSpeed**          | The instantaneous speed of the last chunk of data. |
+| **averageSpeed**       | The average speed of the stream.                   |
+| **overallSpeed**       | The overall speed of the stream.                   |
+| **firstDataTimestamp** | UNIX Timestamp of the first chunk of data.         |
+| **lastDataTimestamp**  | UNIX Timestamp of the last chunk of data.          |
+| **lastBytes**          | Size of the last chunk of data.                    |
+| **totalBytes**         | Size of all data trasferred through the stream.    |
 
 ## Extras
 
