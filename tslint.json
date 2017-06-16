@@ -3,6 +3,7 @@
     "rules": {
         "whitespace": [
             true, "check-branch", "check-operator", "check-typecast"
-        ]
+        ],
+        "space-before-function-paren": false
     }
 }

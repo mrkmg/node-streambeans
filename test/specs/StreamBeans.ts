@@ -3,14 +3,14 @@ import {PassThrough} from "stream";
 import {StreamBeans} from "../../src/StreamBeans";
 import {NullStream, sendDataOverTime} from "../helper";
 
-describe("StreamBeans", function() {
+describe("StreamBeans", function () {
     this.timeout(5000);
     let simpleStream: PassThrough;
     let beans: StreamBeans;
 
     beforeEach(() => {
         simpleStream = new PassThrough();
-        beans   = new StreamBeans();
+        beans        = new StreamBeans();
         simpleStream.pipe(beans).pipe(NullStream());
     });
 

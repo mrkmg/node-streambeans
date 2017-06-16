@@ -5,7 +5,7 @@ import {file} from "tempy";
 import {StreamBeans} from "../../src/StreamBeans";
 import {makeFile} from "../helper";
 
-describe("FS Streams", function() {
+describe("FS Streams", function () {
     this.timeout(5000);
     let inputFilePath: string;
     let outputFilePath: string;
@@ -17,8 +17,8 @@ describe("FS Streams", function() {
         inputFilePath  = file();
         outputFilePath = file();
         makeFile(inputFilePath, 200000);
-        inputSteam = createReadStream(inputFilePath);
-        beans = new StreamBeans();
+        inputSteam   = createReadStream(inputFilePath);
+        beans        = new StreamBeans();
         outputStream = createWriteStream(outputFilePath);
     });
 

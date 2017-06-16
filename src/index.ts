@@ -1,4 +1,4 @@
-import {Readable} from "stream";
+import {Readable, Writable} from "stream";
 import {StreamBeans} from "./StreamBeans";
 import prettyBytes = require("pretty-bytes");
 
@@ -8,10 +8,13 @@ export function toHuman(bytes: number) {
     return prettyBytes(bytes);
 }
 
-export default function createStreamBeans(stream?: Readable): StreamBeans {
+export default function createStreamBeans(inStream?: Readable, outStream?: Writable): StreamBeans {
     const beans = new StreamBeans();
-    if (stream) {
-        stream.pipe(beans);
+    if (inStream) {
+        inStream.pipe(beans);
+    }
+    if (outStream) {
+        beans.pipe(outStream);
     }
     return beans;
 }
