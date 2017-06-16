@@ -53,11 +53,13 @@ See the [./example.js](example.js) file for a working example of usage.
 
 ## Extras
 
-There is a default export available to easily create a StreamBeans object from another stream.
+There is a default export available to easily create a StreamBeans object.
 
-    import createStreamBeans from "streambeans";
-    import {createReadStream} from "fs";
-    
+    const createStreamBeans = require("streambeans");
+    const beans = createStreamBeans();
+
+You can also skip the pipe step and pass another stream directly into the helper function.
+
     const fileReadStream = createReadStream("./file");
     const beans = createStreamBeans(fileReadStream);
 
