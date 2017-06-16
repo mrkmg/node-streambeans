@@ -60,10 +60,11 @@ There is a default export available to easily create a StreamBeans object.
     const createStreamBeans = require("streambeans");
     const beans = createStreamBeans();
 
-You can also skip the pipe step and pass another stream directly into the helper function.
+You can also skip the pipe step(s) and pass an input and output stream into `createStreamBeams`.
 
-    const fileReadStream = createReadStream("./file");
-    const beans = createStreamBeans(fileReadStream);
+    const fileReadStream = createReadStream("./in.file");
+    const fileWriteStream = createWriteStream("./out.file");
+    const beans = createStreamBeans(fileReadStream, fileWriteStream);
 
 The `toHuman` function will format the raw data into something more understandable
 for human consumption.
