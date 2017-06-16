@@ -1,7 +1,6 @@
-const {StreamBeans, toHuman} = require("./lib");
-const PassThrough            = require("stream").PassThrough;
-const Writable               = require("stream").Writable;
-const readline               = require("readline");
+const {StreamBeans, toHuman}  = require("./lib");
+const {PassThrough, Writable} = require("stream");
+const readline                = require("readline");
 
 // Create an input stream. We will write data to this once everything is setup
 const inputStream  = new PassThrough();
@@ -36,8 +35,15 @@ const displayInterval = setInterval(() => {
     readline.moveCursor(process.stdout, 0, -8);
 }, 500);
 
-// Once the stream ends, stop the output
-beans.on("end", () => clearInterval(displayInterval));
+// Once the stream ends, stop the updates, and output an overall
+beans.on("end", () => {
+    clearInterval(displayInterval);
+    readline.clearScreenDown(process.stdout);
+    console.log("Total Time:   ", (beans.lastDataTimestamp - beans.firstDataTimestamp) + "s");
+    console.log("Total Bytes:  ", toHuman(beans.totalBytes));
+    console.log("Overall Speed:", toHuman(beans.overallSpeed) + "/s");
+    console.log("=========================================");
+});
 
 // Write a "random" amount of every 50 milliseconds
 const dataWriteInterval = setInterval(() => {
