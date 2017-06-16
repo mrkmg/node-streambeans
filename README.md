@@ -13,35 +13,35 @@ npm install --save streambeans
 
 ## Usage
 
-```ecmascript 6
-import {StreamBeans, toHuman} from "streambeans";
+In order for the "beancounter" to do its work, you will need to pipe a stream into StreamBeans.
 
-// Get some streams
-const inputStream = /* some stream */;
-const outputStream = /* some stream */;
+First, import the `StreamBeans` constructor (and optionally the `toHuman` helper function) and then
+instantiate an instance of StreamBeans.
 
-// Create a StreamBeans stream
-const streamBeans = new StreamBeans();
+    const {StreamBeans, toHuman} = require("streambeans");
+    const beans = new StreamBeans();
 
-// Pipe the inputStream to the outputStream through StreamBeams 
-inputStream.pipe(streamBeans).pipe(outputStream);
+Then pipe an existing stream into stream beans.
 
-// Every one second, output some details about the stream
-const displayInterval = setInterval(() => {
-    console.log("Last Speed: " + toHuman(streamBeans.lastSpeed) + "/s");
-    console.log("Average Speed: " + toHuman(streamBeans.averageSpeed) + "/s");
-    console.log("Overall Speed: " + toHuman(streamBeans.overallSpeed) + "/s");
-    console.log("First Data Timestamp: " + streamBeans.firstDataTimestamp);
-    console.log("Last Data Timestamp: " + streamBeans.lastDataTimestamp);
-    console.log("Last Data Size: " + toHuman(streamBeans.lastBytes));
-    console.log("Total Data Size: " + toHuman(streamBeans.totalBytes));
-}, 1000);
+    existingStream.pipe(beans);
 
-// Once the stream ends, stop the output
-streamBeans.on("end", () => clearInterval(displayInterval));
-````
+You can then use the beans stream as you would have the original stream.
 
-## Properties
+    beans.on("data", (chunk) => processChunk(chunk));
+
+All the metrics of the stream are accessible from the beans object.
+
+    console.log("Last Speed: " + toHuman(beans.lastSpeed) + "/s");
+    console.log("Average Speed: " + toHuman(beans.averageSpeed) + "/s");
+    console.log("Overall Speed: " + toHuman(beans.overallSpeed) + "/s");
+    console.log("First Data Timestamp: " + beans.firstDataTimestamp);
+    console.log("Last Data Timestamp: " + beans.lastDataTimestamp);
+    console.log("Last Data Size: " + toHuman(beans.lastBytes));
+    console.log("Total Data Size: " + toHuman(beans.totalBytes));
+
+See the [./example.js](example.js) file for a working example of usage.
+
+## Available Metrics
 
 - **lastSpeed** - The instantaneous speed of the last chunk of data.
 - **averageSpeed** - The average speed of the stream.
@@ -55,16 +55,20 @@ streamBeans.on("end", () => clearInterval(displayInterval));
 
 There is a default export available to easily create a StreamBeans object from another stream.
 
-``` ecmascript 6
-import createStreamBeans from "streambeans";
-import {createReadStream} from "fs";
-
-const fileReadStream = createReadStream("./file");
-const streamBeans = createStreamBeans(fileReadStream);
-````
+    import createStreamBeans from "streambeans";
+    import {createReadStream} from "fs";
+    
+    const fileReadStream = createReadStream("./file");
+    const beans = createStreamBeans(fileReadStream);
 
 The `toHuman` function will format the raw data into something more understandable
 for human consumption.
+
+You can adjust the number of seconds considered for the average speed. By default it is set to 5,
+but can be set to any number you would prefer.
+
+    const beans = new StreamBeans();
+    beans.averageTimeFrame = 10; // Set average to calculate over 10 seconds
 
 ## Licence
 

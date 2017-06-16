@@ -9,9 +9,9 @@ export function toHuman(bytes: number) {
 }
 
 export default function createStreamBeans(stream?: Readable): StreamBeans {
-    const streamBeans = new StreamBeans();
+    const beans = new StreamBeans();
     if (stream) {
-        stream.pipe(streamBeans);
+        stream.pipe(beans);
     }
-    return streamBeans;
+    return beans;
 }

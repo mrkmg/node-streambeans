@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {createReadStream, createWriteStream, existsSync, ReadStream, unlinkSync} from "fs";
+import {createReadStream, createWriteStream, existsSync, readFileSync, ReadStream, unlinkSync} from "fs";
 import {Writable} from "stream";
 import {file} from "tempy";
 import {StreamBeans} from "../../src/StreamBeans";
@@ -10,7 +10,7 @@ describe("FS Streams", function() {
     let inputFilePath: string;
     let outputFilePath: string;
     let inputSteam: ReadStream;
-    let streamBean: StreamBeans;
+    let beans: StreamBeans;
     let outputStream: Writable;
 
     beforeEach(() => {
@@ -18,7 +18,7 @@ describe("FS Streams", function() {
         outputFilePath = file();
         makeFile(inputFilePath, 200000);
         inputSteam = createReadStream(inputFilePath);
-        streamBean = new StreamBeans();
+        beans = new StreamBeans();
         outputStream = createWriteStream(outputFilePath);
     });
 
@@ -33,22 +33,24 @@ describe("FS Streams", function() {
     });
 
     it("should count size of file", (done) => {
-        streamBean.on("end", () => {
-            expect(streamBean.totalBytes).to.be.eq(200000);
+        beans.on("end", () => {
+            const outputFileSize = readFileSync(outputFilePath, "UTF8").length;
+            expect(beans.totalBytes).to.be.eq(200000);
+            expect(outputFileSize).to.be.eq(200000);
             done();
         });
 
-        inputSteam.pipe(streamBean).pipe(outputStream);
+        inputSteam.pipe(beans).pipe(outputStream);
     });
 
     it("should have positive speeds", (done) => {
-        streamBean.on("end", () => {
-            expect(streamBean.averageSpeed).to.be.greaterThan(0);
-            expect(streamBean.lastSpeed).to.be.greaterThan(0);
-            expect(streamBean.overallSpeed).to.be.greaterThan(0);
+        beans.on("end", () => {
+            expect(beans.averageSpeed).to.be.greaterThan(0);
+            expect(beans.lastSpeed).to.be.greaterThan(0);
+            expect(beans.overallSpeed).to.be.greaterThan(0);
             done();
         });
 
-        inputSteam.pipe(streamBean).pipe(outputStream);
+        inputSteam.pipe(beans).pipe(outputStream);
     });
 });

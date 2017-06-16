@@ -8,6 +8,7 @@ export class StreamBeans extends Transform {
     public lastDataTimestamp: number  = null;
     public lastBytes: number          = 0;
     public totalBytes: number         = 0;
+    public averageTimeFrame: number   = 5;
     private _lastHr: [number, number] = null;
 
     constructor() {
@@ -40,20 +41,23 @@ export class StreamBeans extends Transform {
         const diffHr        = process.hrtime(this._lastHr);
         const diffInSeconds = (diffHr[0] * 1e9 + diffHr[1]) / 1e9;
         const currentSpeed  = calcSpeed(len, diffInSeconds);
-        if (this.averageSpeed === 0) {
-            this.averageSpeed = currentSpeed;
-        } else {
-            this.averageSpeed = calcAverageSpeed(currentSpeed, this.averageSpeed);
-        }
+
+        this._calculateAverageSpeed(currentSpeed, diffInSeconds);
+
         this.overallSpeed      = calcSpeed(this.totalBytes, now - this.firstDataTimestamp);
         this.lastSpeed         = currentSpeed;
         this.lastDataTimestamp = now;
         this._lastHr           = process.hrtime();
     }
-}
 
-function calcAverageSpeed(currentSpeed: number, previousSpeed: number) {
-    return Math.round((currentSpeed * 0.0001) + (previousSpeed * 0.9999));
+    private _calculateAverageSpeed(currentSpeed: number, secondsPassed: any) {
+        if (this.averageSpeed === 0) {
+            this.averageSpeed = currentSpeed;
+        } else {
+            const factor      = secondsPassed / this.averageTimeFrame;
+            this.averageSpeed = Math.round((currentSpeed * factor) + (this.averageSpeed * (1 - factor)));
+        }
+    }
 }
 
 function calcSpeed(len: number, time: number) {

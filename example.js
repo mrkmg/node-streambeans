@@ -1,45 +1,51 @@
-const StreamBeans = require("./lib");
-const createStreamBeans = StreamBeans.default;
-const toHuman = StreamBeans.toHuman;
-const PassThrough = require("stream").PassThrough;
-const Writable = require("stream").Writable;
+const {StreamBeans, toHuman} = require("./lib");
+const PassThrough            = require("stream").PassThrough;
+const Writable               = require("stream").Writable;
+const readline               = require("readline");
 
-// Get some streams
+// Create an input stream. We will write data to this once everything is setup
 const inputStream  = new PassThrough();
+// Create a null stream to output to. This will throw any data it receives
 const outputStream = new Writable({write: (d, e, c) => c()});
 
 // Create a StreamBeans
-const streamBeans = createStreamBeans();
+const beans = new StreamBeans();
 
-// Pipe the inputStream to the outputStream through StreamBeams
-inputStream.pipe(streamBeans).pipe(outputStream);
+// Adjust the beans average timeframe to 8 seconds
+beans.averageTimeFrame = 8;
 
-// Every one second, output some details about the stream
+// Pipe the inputStream to the outputStream through our bean counter
+inputStream.pipe(beans).pipe(outputStream);
+
+// Once every half a second, output to the screen all the streams metrics
 const displayInterval = setInterval(() => {
-    console.log("Last Speed: " + toHuman(streamBeans.lastSpeed) + "/s");
-    console.log("Average Speed: " + toHuman(streamBeans.averageSpeed) + "/s");
-    console.log("Overall Speed: " + toHuman(streamBeans.overallSpeed) + "/s");
-    console.log("First Data Timestamp: " + streamBeans.firstDataTimestamp);
-    console.log("Last Data Timestamp: " + streamBeans.lastDataTimestamp);
-    console.log("Last Data Size: " + toHuman(streamBeans.lastBytes));
-    console.log("Total Data Size: " + toHuman(streamBeans.totalBytes));
+    // Clear everything below cursor
+    readline.clearScreenDown(process.stdout);
+
+    // Output metrics
+    console.log("Last Speed:           " + toHuman(beans.lastSpeed) + "/s");
+    console.log("Average Speed:        " + toHuman(beans.averageSpeed) + "/s");
+    console.log("Overall Speed:        " + toHuman(beans.overallSpeed) + "/s");
+    console.log("First Data Timestamp: " + beans.firstDataTimestamp);
+    console.log("Last Data Timestamp:  " + beans.lastDataTimestamp);
+    console.log("Last Data Size:       " + toHuman(beans.lastBytes));
+    console.log("Total Data Size:      " + toHuman(beans.totalBytes));
     console.log("=========================================");
+
+    // Move the cursor to the top line to prep for next interval
+    readline.moveCursor(process.stdout, 0, -8);
 }, 500);
 
 // Once the stream ends, stop the output
-streamBeans.on("end", () => clearInterval(displayInterval));
+beans.on("end", () => clearInterval(displayInterval));
 
-let i = 0;
-let max = 100;
-const runData = () => {
-    if (++i > max) {
-        inputStream.end();
-        return;
-    }
-    inputStream.write("0".repeat(Math.round(Math.random() * 100)), () => {
-        setTimeout(runData, Math.random() * 1000);
-    });
-};
+// Write a "random" amount of every 50 milliseconds
+const dataWriteInterval = setInterval(() => {
+    inputStream.write("0".repeat(Math.round(Math.random() * 100)));
+}, 50);
 
-
-runData();
+// Stop the writing and end the stream after 10 seconds
+setTimeout(() => {
+    clearInterval(dataWriteInterval);
+    inputStream.end();
+}, 10000);
