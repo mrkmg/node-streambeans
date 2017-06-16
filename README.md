@@ -39,7 +39,7 @@ All the metrics of the stream are accessible from the beans object.
     console.log("Last Data Size: " + toHuman(beans.lastBytes));
     console.log("Total Data Size: " + toHuman(beans.totalBytes));
 
-See the [./example.js](example.js) file for a working example of usage.
+See the [./example.js](example.js) file for a working example of how to use StreamBeans.
 
 ## Available Metrics
 
