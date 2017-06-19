@@ -1,4 +1,4 @@
-import {Transform} from "stream";
+import {DuplexOptions, Transform} from "stream";
 
 export class StreamBeans extends Transform {
     /**
@@ -50,19 +50,16 @@ export class StreamBeans extends Transform {
     public averageTimeFrame: number = 5;
 
     private _lastHr: [number, number] = null;
+    private _isObjectMode: boolean;
 
-    constructor() {
-        super({allowHalfOpen: false});
+
+    constructor(opts: DuplexOptions = {allowHalfOpen: false}) {
+        super(opts);
+        this._isObjectMode = opts.hasOwnProperty("objectMode") && opts.objectMode;
     }
 
     public _transform(chunk: any, encoding: string, cb: Function) {
-        let len: number;
-
-        if (chunk instanceof Buffer || typeof chunk === "string") {
-            len = chunk.length;
-        } else {
-            len = 1; // If this is not a Buffer or string, assume we are counting
-        }
+        const len = this._isObjectMode ? 1 : chunk.length;
         this.push(chunk, encoding);
         this._update(len);
         cb();

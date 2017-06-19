@@ -1,7 +1,7 @@
 import {closeSync, openSync, writeSync} from "fs";
 import {Writable} from "stream";
 
-export function sendDataOverTime(stream: Writable, data: string, iterations: number, delay: number, done?: Function) {
+export function sendDataOverTime(stream: Writable, data: string | Object, iterations: number, delay: number, done?: Function) {
     let i = 0;
 
     while (i < iterations) {
@@ -25,9 +25,9 @@ export function makeFile(path: string, size: number) {
     closeSync(fp);
 }
 
-export function NullStream() {
+export function NullStream(objectMode: boolean = false) {
     const write = (c: any, enc: string, cb: Function) => cb();
-    return new Writable({ write });
+    return new Writable({ write, objectMode });
 }
 
 export function StringStream(): any {

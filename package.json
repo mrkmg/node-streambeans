@@ -7,10 +7,12 @@
   "scripts": {
     "lint": "tslint -c tslint.json src/**/*.ts test/**/*.ts",
     "mocha": "mocha -r ts-node/register test/specs/**/*.ts",
-    "test": "npm run lint; npm run mocha",
+    "cover": "nyc npm run mocha",
+    "test": "npm run lint; npm run cover",
     "clean": "rm lib/*",
     "tsc": "tsc",
-    "build": "npm run clean; npm run tsc"
+    "build": "npm run clean; npm run tsc",
+    "all": "npm run test && npm run build"
   },
   "keywords": [
     "stream",
@@ -27,9 +29,11 @@
   "devDependencies": {
     "@types/chai": "^4.0.0",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^7.0.31",
+    "@types/node": "^8.0.0",
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
+    "nyc": "^11.0.2",
+    "source-map-support": "^0.4.15",
     "tempy": "^0.1.0",
     "ts-node": "^3.0.6",
     "tslint": "^5.4.3",
@@ -37,5 +41,22 @@
   },
   "dependencies": {
     "pretty-bytes": "^4.0.2"
+  },
+  "nyc": {
+    "include": [
+      "src/index.ts",
+      "src/StreamBeans.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "html",
+      "text",
+      "json"
+    ],
+    "all": true,
+    "sourceMap": true,
+    "instrument": true
   }
 }

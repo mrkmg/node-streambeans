@@ -70,6 +70,13 @@ You can also skip the pipe step(s) and pass an input and/or output stream into `
     const fileWriteStream = createWriteStream("./out.file");
     const beans = createStreamBeans(fileReadStream, fileWriteStream);
 
+You can also use this with an `objectMode` stream as well. Instead of counting bytes, it will count
+the total objects and objects per second.
+
+    const beans = new StreamBeans({objectMode: true});
+    // or
+    const beans = createStreamBeans(inStream, outStream, {objectMode: true});
+
 The `toHuman` function will format the raw data (in bytes) into something more understandable
 for human consumption.
 

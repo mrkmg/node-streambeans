@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { Transform } from "stream";
+import { DuplexOptions, Transform } from "stream";
 export declare class StreamBeans extends Transform {
     lastSpeed: number;
     averageSpeed: number;
@@ -10,7 +10,8 @@ export declare class StreamBeans extends Transform {
     totalBytes: number;
     averageTimeFrame: number;
     private _lastHr;
-    constructor();
+    private _isObjectMode;
+    constructor(opts?: DuplexOptions);
     _transform(chunk: any, encoding: string, cb: Function): void;
     private _update(len);
     private _calculateAverageSpeed(currentSpeed, secondsPassed);

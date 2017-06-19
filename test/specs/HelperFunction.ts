@@ -4,8 +4,7 @@ import {createStreamBeans,StreamBeans} from "../../src/index";
 import createStreamBeansDefault from "../../src/index";
 import {NullStream, StringStream} from "../helper";
 
-describe("Helper Function", function () {
-    this.timeout(5000);
+describe("Helper Function", () => {
 
     it("is the same in default and named export", () => {
         expect(createStreamBeansDefault).to.eq(createStreamBeans);
@@ -44,6 +43,20 @@ describe("Helper Function", function () {
         });
 
         iStream.write("ABCDEF");
+        iStream.end();
+    });
+
+    it("works with 3 arguments", (done) => {
+        const iStream = new PassThrough({objectMode: true});
+        const beans = createStreamBeans(iStream, null, {objectMode: true});
+        const data = {testObj: true};
+
+        beans.once("data", (chunk) => {
+            expect(data).to.eq(chunk);
+            done();
+        });
+
+        iStream.write(data);
         iStream.end();
     });
 });

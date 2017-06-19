@@ -3,8 +3,7 @@ import {PassThrough} from "stream";
 import {StreamBeans} from "../../src/StreamBeans";
 import {NullStream, sendDataOverTime} from "../helper";
 
-describe("StreamBeans", function () {
-    this.timeout(5000);
+describe("StreamBeans", () => {
     let simpleStream: PassThrough;
     let beans: StreamBeans;
 
