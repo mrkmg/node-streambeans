@@ -82,8 +82,8 @@ but can be set to any number you would prefer.
 
 ## Importing
 
-Depending on what method you are using to handle your imports, here are the available ways to import
-the `createStreamBeans` helper function.
+Depending on what method you are using to handle your imports and what version of javascript you are
+using, there are multiple available ways to import the `createStreamBeans` helper function.
 
     import createStreamBeans from "streambeans";
     const {createStreamBeans} = require("streambeans");
