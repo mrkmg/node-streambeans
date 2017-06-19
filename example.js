@@ -1,20 +1,15 @@
-const {StreamBeans, toHuman}  = require("./lib");
+const {createStreamBeans, toHuman}  = require("./lib");
 const {PassThrough, Writable} = require("stream");
 const readline                = require("readline");
 
 // Create an input stream. We will write data to this once everything is setup
 const inputStream  = new PassThrough();
-// Create a null stream to output to. This will throw any data it receives
+// Create a null stream to output to. This will throw away any data it receives
 const outputStream = new Writable({write: (d, e, c) => c()});
-
-// Create a StreamBeans
-const beans = new StreamBeans();
-
+// Create out beancounter
+const beans = createStreamBeans(inputStream, outputStream);
 // Adjust the beans average timeframe to 8 seconds
 beans.averageTimeFrame = 8;
-
-// Pipe the inputStream to the outputStream through our bean counter
-inputStream.pipe(beans).pipe(outputStream);
 
 // Once every half a second, output to the screen all the streams metrics
 const displayInterval = setInterval(() => {

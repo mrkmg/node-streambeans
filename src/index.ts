@@ -8,7 +8,7 @@ export function toHuman(bytes: number) {
     return prettyBytes(bytes);
 }
 
-export default function createStreamBeans(inStream?: Readable, outStream?: Writable): StreamBeans {
+export function createStreamBeans(inStream?: Readable, outStream?: Writable): StreamBeans {
     const beans = new StreamBeans();
     if (inStream) {
         inStream.pipe(beans);
@@ -18,3 +18,5 @@ export default function createStreamBeans(inStream?: Readable, outStream?: Writa
     }
     return beans;
 }
+
+export default createStreamBeans;

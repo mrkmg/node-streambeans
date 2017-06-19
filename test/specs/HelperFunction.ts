@@ -1,18 +1,23 @@
 import {expect} from "chai";
 import {PassThrough} from "stream";
-import createStreamBeans, {StreamBeans} from "../../src/index";
+import {createStreamBeans,StreamBeans} from "../../src/index";
+import createStreamBeansDefault from "../../src/index";
 import {NullStream, StringStream} from "../helper";
 
 describe("Helper Function", function () {
     this.timeout(5000);
 
-    it("0 arguments", () => {
+    it("is the same in default and named export", () => {
+        expect(createStreamBeansDefault).to.eq(createStreamBeans);
+    });
+
+    it("works with 0 arguments", () => {
         const beans = createStreamBeans();
 
         expect(beans).to.be.instanceof(StreamBeans);
     });
 
-    it("1 argument", (done) => {
+    it("works with 1 argument", (done) => {
         const iStream    = new PassThrough();
         const nullStream = NullStream();
         const beans      = createStreamBeans(iStream);
@@ -28,7 +33,7 @@ describe("Helper Function", function () {
         iStream.end();
     });
 
-    it("2 arguments", (done) => {
+    it("works with 2 arguments", (done) => {
         const iStream = new PassThrough();
         const oStream = StringStream();
         const beans   = createStreamBeans(iStream, oStream);

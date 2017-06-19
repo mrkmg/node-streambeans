@@ -97,7 +97,8 @@ export class StreamBeans extends Transform {
         if (this.averageSpeed === 0) {
             this.averageSpeed = currentSpeed;
         } else {
-            const factor      = secondsPassed / this.averageTimeFrame;
+            // The factor calculated from desired average time frame. The max for this is 1.
+            const factor      = Math.max(secondsPassed / this.averageTimeFrame, 1);
             this.averageSpeed = Math.round((currentSpeed * factor) + (this.averageSpeed * (1 - factor)));
         }
     }
