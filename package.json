@@ -34,7 +34,7 @@
     "mocha": "^3.4.2",
     "nyc": "^11.0.2",
     "source-map-support": "^0.4.15",
-    "tempy": "^0.1.0",
+    "tempy": "^0.2.0",
     "ts-node": "^3.0.6",
     "tslint": "^5.4.3",
     "typescript": "^2.4.0"
