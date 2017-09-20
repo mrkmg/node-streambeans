@@ -1,7 +1,6 @@
 import {expect} from "chai";
 import {PassThrough} from "stream";
-import {createStreamBeans,StreamBeans} from "../../src/index";
-import createStreamBeansDefault from "../../src/index";
+import createStreamBeansDefault, {createStreamBeans, StreamBeans} from "../../src/index";
 import {NullStream, StringStream} from "../helper";
 
 describe("Helper Function", () => {
@@ -48,8 +47,8 @@ describe("Helper Function", () => {
 
     it("works with 3 arguments", (done) => {
         const iStream = new PassThrough({objectMode: true});
-        const beans = createStreamBeans(iStream, null, {objectMode: true});
-        const data = {testObj: true};
+        const beans   = createStreamBeans(iStream, null, {objectMode: true});
+        const data    = {testObj: true};
 
         beans.once("data", (chunk) => {
             expect(data).to.eq(chunk);
