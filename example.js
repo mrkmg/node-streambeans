@@ -6,10 +6,10 @@ const readline                = require("readline");
 const inputStream  = new PassThrough();
 // Create a null stream to output to. This will throw away any data it receives
 const outputStream = new Writable({write: (d, e, c) => c()});
-// Create out beancounter
+// Create our beancounter using the "createStreamBeans" helper
 const beans = createStreamBeans(inputStream, outputStream);
-// Adjust the beans average timeframe to 8 seconds
-beans.averageTimeFrame = 8;
+// Adjust the beans average timeframe to 4 seconds
+beans.averageTimeFrame = 4;
 
 // Once every half a second, output to the screen all the streams metrics
 const displayInterval = setInterval(() => {
@@ -30,7 +30,7 @@ const displayInterval = setInterval(() => {
     readline.moveCursor(process.stdout, 0, -8);
 }, 500);
 
-// Once the stream ends, stop the updates, and output an overall
+// Once the stream ends, stop the updates, and output overall data
 beans.on("end", () => {
     clearInterval(displayInterval);
     readline.clearScreenDown(process.stdout);

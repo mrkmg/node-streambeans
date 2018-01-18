@@ -17,7 +17,13 @@
   "keywords": [
     "stream",
     "speed",
-    "metric"
+    "metric",
+    "bytes",
+    "rate",
+    "metrics",
+    "bps",
+    "mps",
+    "measurements"
   ],
   "author": "Kevin Gravier <https://github.com/mrkmg>",
   "license": "MIT",
