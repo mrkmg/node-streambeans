@@ -4,6 +4,7 @@
         "whitespace": [
             true, "check-branch", "check-operator", "check-typecast"
         ],
-        "space-before-function-paren": false
+        "space-before-function-paren": false,
+        "no-implicit-dependencies": [true, "dev"]
     }
 }

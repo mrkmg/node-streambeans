@@ -27,13 +27,13 @@ describe("StreamBeans - Object Mode", () => {
 
     it("should track counts/s", (done) => {
         beans.on("end", () => {
-            expect(beans.lastSpeed).to.be.closeTo(20, 2);
-            expect(beans.averageSpeed).to.be.closeTo(20, 2);
+            expect(beans.lastSpeed).to.be.closeTo(20, 5);
+            expect(beans.averageSpeed).to.be.closeTo(20, 5);
             done();
         });
 
         // 20 objects per second
-        sendDataOverTime(simpleStream, {testObject: true, string: "abc"}, 5, 50, () => simpleStream.end());
+        sendDataOverTime(simpleStream, {testObject: true, string: "abc"}, 10, 50, () => simpleStream.end());
     });
 
     it("should track overall counts/s", (done) => {

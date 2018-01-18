@@ -44,7 +44,7 @@ describe("StreamBeans", () => {
         });
 
         // 200 b/s
-        sendDataOverTime(simpleStream, "0123456789", 5, 50, () => simpleStream.end());
+        sendDataOverTime(simpleStream, "0123456789", 10, 50, () => simpleStream.end());
     });
 
     it("should set overall speed", (done) => {

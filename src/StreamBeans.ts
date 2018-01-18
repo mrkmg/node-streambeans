@@ -91,11 +91,11 @@ export class StreamBeans extends Transform {
     }
 
     private _calculateAverageSpeed(currentSpeed: number, secondsPassed: number) {
-        if (this.averageSpeed === 0) {
-            this.averageSpeed = currentSpeed;
+        if (this.lastDataTimestamp - this.firstDataTimestamp < this.averageTimeFrame) {
+            this.averageSpeed = this.overallSpeed;
         } else {
             // The factor calculated from desired average time frame. The max for this is 1.
-            const factor      = Math.max(secondsPassed / this.averageTimeFrame, 1);
+            const factor      = Math.min(secondsPassed / this.averageTimeFrame, 1);
             this.averageSpeed = Math.round((currentSpeed * factor) + (this.averageSpeed * (1 - factor)));
         }
     }
