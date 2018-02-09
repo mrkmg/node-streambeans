@@ -1,29 +1,45 @@
 StreamBeans
 ===========
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/mrkmg/node-streambeans.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/mrkmg/node-streambeans.svg?branch=master)](https://travis-ci.org/mrkmg/node-streambeans)
 
 ![StreamBeans!](http://i.imgur.com/tvscJrG.png)
 
-A beancounter for your streams. Keep track of various metrics about a stream.
+A beancounter for your streams. Keep track of various metrics about a stream. It can tell you
+instantaneous speed, average speed, overall speed, and duration of the of the stream. It also
+works for streams in object mode.
 
 ## Installation
 
-```
-npm install --save streambeans
-```
+    npm install --save streambeans
+
+## Quick Start
+
+ES6
+
+
+    import createStreamBeans from "streambeans";
+    const beans = createStreamBeans(inStream, outStream);
+    // At some later point
+    console.log(beans.averageSpeed);
+
+
+ES5
+
+    var createStreamBeans = require("streambeans").createStreamBeans;
+    var beans = createStreamBeans(inStream, outStream);
+    // At some later point
+    console.log(beans.averageSpeed);
 
 ## Usage
 
-In order for the "beancounter" to do its work, you will need to pipe a stream into StreamBeans.
+In order for the "beancounter" to do its work, you will need to pipe a stream through StreamBeans.
 
 First, import the `StreamBeans` constructor (and optionally the `toHuman` helper function) and then
 instantiate an instance of StreamBeans.
 
     const {StreamBeans, toHuman} = require("streambeans");
     const beans = new StreamBeans();
-
 
 Then pipe an existing stream into stream beans.
 

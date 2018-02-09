@@ -16,9 +16,9 @@ describe("Helper Function", () => {
     });
 
     it("works with 1 argument", (done) => {
-        const iStream    = new PassThrough();
+        const iStream = new PassThrough();
         const nullStream = NullStream();
-        const beans      = createStreamBeans(iStream);
+        const beans = createStreamBeans(iStream);
 
         beans.pipe(nullStream);
 
@@ -34,7 +34,7 @@ describe("Helper Function", () => {
     it("works with 2 arguments", (done) => {
         const iStream = new PassThrough();
         const oStream = StringStream();
-        const beans   = createStreamBeans(iStream, oStream);
+        const beans = createStreamBeans(iStream, oStream);
 
         beans.on("end", () => {
             expect(oStream.string).to.eq("ABCDEF");
@@ -47,8 +47,8 @@ describe("Helper Function", () => {
 
     it("works with 3 arguments", (done) => {
         const iStream = new PassThrough({objectMode: true});
-        const beans   = createStreamBeans(iStream, null, {objectMode: true});
-        const data    = {testObj: true};
+        const beans = createStreamBeans(iStream, null, {objectMode: true});
+        const data = {testObj: true};
 
         beans.once("data", (chunk) => {
             expect(data).to.eq(chunk);

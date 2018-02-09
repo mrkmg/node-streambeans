@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {toHuman} from "../../src/index";
+import {toHuman} from "../../src";
 
 describe("toHuman()", () => {
     it("should convert bytes to readable", () => {

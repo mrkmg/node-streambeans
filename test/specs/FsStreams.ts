@@ -2,7 +2,7 @@ import {expect} from "chai";
 import {createReadStream, createWriteStream, existsSync, readFileSync, ReadStream, unlinkSync} from "fs";
 import {Writable} from "stream";
 import {file} from "tempy";
-import {StreamBeans} from "../../src/StreamBeans";
+import {StreamBeans} from "../../src";
 import {makeFile} from "../helper";
 
 describe("FS Streams", function () {
@@ -14,11 +14,11 @@ describe("FS Streams", function () {
     let outputStream: Writable;
 
     beforeEach(() => {
-        inputFilePath  = file();
+        inputFilePath = file();
         outputFilePath = file();
         makeFile(inputFilePath, 200000);
-        inputSteam   = createReadStream(inputFilePath);
-        beans        = new StreamBeans();
+        inputSteam = createReadStream(inputFilePath);
+        beans = new StreamBeans();
         outputStream = createWriteStream(outputFilePath);
     });
 

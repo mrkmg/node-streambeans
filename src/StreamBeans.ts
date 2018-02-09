@@ -5,7 +5,7 @@ export class StreamBeans extends Transform {
      * The last instantaneous speed measured
      * @type {number}
      */
-    public lastSpeed: number    = 0;
+    public lastSpeed: number = 0;
 
     /**
      * The average speed over the last {averageTimeFrame} seconds
@@ -29,13 +29,13 @@ export class StreamBeans extends Transform {
      * Unix timestamp of the last detected data
      * @type {number}
      */
-    public lastDataTimestamp: number  = null;
+    public lastDataTimestamp: number = null;
 
     /**
      * Number of bytes in the last detected chunk of data
      * @type {number}
      */
-    public lastBytes: number  = 0;
+    public lastBytes: number = 0;
 
     /**
      * Total number of bytes transferred in the stream
@@ -51,7 +51,6 @@ export class StreamBeans extends Transform {
 
     private _lastHr: [number, number] = null;
     private _isObjectMode: boolean;
-
 
     constructor(opts: DuplexOptions = {allowHalfOpen: false}) {
         super(opts);
@@ -72,22 +71,22 @@ export class StreamBeans extends Transform {
         const now = Date.now() / 1000;
 
         if (this._lastHr === null) {
-            this._lastHr            = process.hrtime();
+            this._lastHr = process.hrtime();
             this.firstDataTimestamp = now;
-            this.lastDataTimestamp  = now;
+            this.lastDataTimestamp = now;
             return;
         }
 
-        const diffHr        = process.hrtime(this._lastHr);
+        const diffHr = process.hrtime(this._lastHr);
         const diffInSeconds = (diffHr[0] * 1e9 + diffHr[1]) / 1e9;
-        const currentSpeed  = calcSpeed(len, diffInSeconds);
+        const currentSpeed = calcSpeed(len, diffInSeconds);
 
         this._calculateAverageSpeed(currentSpeed, diffInSeconds);
 
-        this.overallSpeed      = calcSpeed(this.totalBytes, now - this.firstDataTimestamp);
-        this.lastSpeed         = currentSpeed;
+        this.overallSpeed = calcSpeed(this.totalBytes, now - this.firstDataTimestamp);
+        this.lastSpeed = currentSpeed;
         this.lastDataTimestamp = now;
-        this._lastHr           = process.hrtime();
+        this._lastHr = process.hrtime();
     }
 
     private _calculateAverageSpeed(currentSpeed: number, secondsPassed: number) {
@@ -95,7 +94,7 @@ export class StreamBeans extends Transform {
             this.averageSpeed = this.overallSpeed;
         } else {
             // The factor calculated from desired average time frame. The max for this is 1.
-            const factor      = Math.min(secondsPassed / this.averageTimeFrame, 1);
+            const factor = Math.min(secondsPassed / this.averageTimeFrame, 1);
             this.averageSpeed = Math.round((currentSpeed * factor) + (this.averageSpeed * (1 - factor)));
         }
     }

@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {PassThrough} from "stream";
-import {StreamBeans} from "../../src/StreamBeans";
+import {StreamBeans} from "../../src";
 import {NullStream, sendDataOverTime} from "../helper";
 
 describe("StreamBeans - Object Mode", () => {
@@ -9,7 +9,7 @@ describe("StreamBeans - Object Mode", () => {
 
     beforeEach(() => {
         simpleStream = new PassThrough({objectMode: true});
-        beans        = new StreamBeans({objectMode: true});
+        beans = new StreamBeans({objectMode: true});
         simpleStream.pipe(beans).pipe(NullStream(true));
     });
 

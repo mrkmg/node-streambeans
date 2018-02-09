@@ -27,7 +27,7 @@ export function makeFile(path: string, size: number) {
 
 export function NullStream(objectMode: boolean = false) {
     const write = (c: any, enc: string, cb: Function) => cb();
-    return new Writable({ write, objectMode });
+    return new Writable({write, objectMode});
 }
 
 export function StringStream(): any {
@@ -35,7 +35,7 @@ export function StringStream(): any {
     const write = (c: any, enc: string, cb: Function) => {
         (writable as any).string += c.toString();
     };
-    writable = new Writable({ write });
+    writable = new Writable({write});
     (writable as any).string = "";
     return writable;
 }

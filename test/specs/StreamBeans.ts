@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {PassThrough} from "stream";
-import {StreamBeans} from "../../src/StreamBeans";
+import {StreamBeans} from "../../src";
 import {NullStream, sendDataOverTime} from "../helper";
 
 describe("StreamBeans", () => {
@@ -9,7 +9,7 @@ describe("StreamBeans", () => {
 
     beforeEach(() => {
         simpleStream = new PassThrough();
-        beans        = new StreamBeans();
+        beans = new StreamBeans();
         simpleStream.pipe(beans).pipe(NullStream());
     });
 
@@ -37,6 +37,7 @@ describe("StreamBeans", () => {
     });
 
     it("should track speeds", (done) => {
+        beans.averageTimeFrame = 0.1;
         beans.on("end", () => {
             expect(beans.lastSpeed).to.be.closeTo(200, 50);
             expect(beans.averageSpeed).to.be.closeTo(200, 50);
