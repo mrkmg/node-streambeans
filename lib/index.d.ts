@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { DuplexOptions, Readable, Writable } from "stream";
 import { StreamBeans } from "./StreamBeans";
 export * from "./StreamBeans";
